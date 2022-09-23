@@ -35,7 +35,11 @@ module GRPreferences
             libpath[] = GR_jll.LIBPATH[]
         elseif binary == "system"
             grdir[]   = haskey(ENV, "GRDIR") ? ENV["GRDIR"] : @load_preference("grdir")
-            gksqt[]   = joinpath(grdir[], "bin", "gksqt" * (os === :Windows ? ".exe" : ""))
+            if (os === :Darwin)
+                gksqt[] = joinpath(grdir[], "Applications", "gksqt.app", "Contents", "MacOS", "gksqt")
+            else
+                gksqt[] = joinpath(grdir[], "bin", "gksqt" * (os === :Windows ? ".exe" : ""))
+            end
             libGR[]   = lib_path(grdir[], "libGR")
             libGR3[]  = lib_path(grdir[], "libGR3")
             libGRM[]  = lib_path(grdir[], "libGRM")
